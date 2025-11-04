@@ -1,0 +1,8 @@
+name: fed
+channels:
+ - defaults
+ - conda-forge
+dependencies:
+ - pandas
+ - matplotlib
+ - jupyter
