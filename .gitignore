@@ -19,6 +19,7 @@ share/python-wheels/
 MANIFEST
 
 # data files and images
+# ignore csv files as per problem set
 *.csv
 *.png
 
@@ -34,5 +35,3 @@ ENV/
 env.bak/
 venv.bak/
 cpenv/
-
-

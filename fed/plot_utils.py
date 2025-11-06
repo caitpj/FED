@@ -1,6 +1,7 @@
 # fed/plot_utils.py
 from __future__ import annotations
 
+
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -23,14 +24,17 @@ def load_gdp_long(file_path: str) -> pd.DataFrame:
     df["year"] = df["year"].astype(int)
     return df
 
-def filter_countries(df_long: pd.DataFrame, countries: list[str]) -> pd.DataFrame:
+
+def filter_countries(
+        df_long: pd.DataFrame, countries: list[str]) -> pd.DataFrame:
     """
     Return only the selected countries, preserving the order
     you pass in `countries`.
     """
     df = df_long[df_long["Country Name"].isin(countries)].copy()
     # preserve legend/order
-    df["Country Name"] = pd.Categorical(df["Country Name"], categories=countries, ordered=True)
+    df["Country Name"] = pd.Categorical(
+        df["Country Name"], categories=countries, ordered=True)
     return df.sort_values(["Country Name", "year"])
 
 
@@ -91,8 +95,10 @@ def plot_gdp_timeseries(
     return ax
 
 
+# fix later
+'''
 def save_fig(ax: plt.Axes, path: str, dpi: int = 200) -> None:
     """Convenience helper to save the current figure."""
     ax.figure.tight_layout()
     ax.figure.savefig(path, dpi=dpi)
-
+'''

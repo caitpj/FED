@@ -1,35 +1,42 @@
 import pandas as pd
+from pathlib import Path
 
-my_data_path = 'fed/raw_data/GDP_data_in_current_USD.csv'
 
-def convert_csv_to_dataframe(file_path):
-    """Convert a CSV file to a pandas DataFrame."""
-    return pd.read_csv(file_path)
+def convert_csv_to_dataframe(file_path: str) -> pd.DataFrame:
+    '''
+    This function reads in a CSV file and returns a pandas DataFrame.
+    It only reads in rows from a selected
 
-df = convert_csv_to_dataframe(my_data_path)
+    Args:
+    file_path: str
+    '''
+    path = Path(__file__).parent.parent/"fed"/"raw_data"/file_path
+    return pd.read_csv(path)
 
-# Display the first 5 rows of the DataFrame - can delete later, just used for testing
-print(df.head())
 
 # convert to tidy format
-def wide_to_long(df):
-    ''' 
-    Use pandas melt to convert the dataframe from wide to long format
-    Assumes the data has Country Name in the left hand column, and then columns for each year showing GDP
+def wide_to_long(df: pd.DataFrame) -> pd.DataFrame:
     '''
-    df = pd.melt(df, id_vars=['Country Name'], var_name = 'year', value_name = 'gdp')
-    return df
+    This functions uses pandas melt
+    to convert the dataframe from wide to long format.
+    It also prints a message if there are any null values in the dataframe.
 
-df_long = wide_to_long(df)
+     Args:
+     df: pd.Dataframe #Assumes Country Name is in left hand column
 
-# Display the first 5 rows of the DataFrame - can delete later, just used for testing
-print(df_long.head())
+     Returns
+     df_long: pd.DataFrame
+    '''
 
-# handle nulls
-# since there are none in this data, could delete
-def isnull_any(df):
-    '''returns if there are any null values in each column'''
-    return df.isnull().any()
-print(isnull_any(df_long))
+    df_long = pd.melt(
+        df, id_vars=['Country Name'], var_name='year', value_name='gdp')
 
+    # check for nulls
+    if df_long.isnull().values.any() is True:
+        print("There are nulls in the dataframe.")
+    elif df_long.isnull().values.any() is False:
+        print("There are no nulls in the dataframe.")
+    else:
+        print("The function could not check for nulls.")
 
+    return df_long.sort_values(['Country Name', 'year'])
